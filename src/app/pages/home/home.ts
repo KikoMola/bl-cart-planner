@@ -5,8 +5,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
     selector: 'app-home',
     imports: [TranslateModule, FormsModule],
-    templateUrl: './home.html',
-    styleUrl: './home.css',
+    templateUrl: './home.html'
 })
 export class Home {
     private translateService = inject(TranslateService);

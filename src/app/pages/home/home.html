@@ -1,59 +1,65 @@
-<div class="min-h-screen bg-linear-to-br from-red-500 via-yellow-400 to-blue-500 p-8">
-    <div class="max-w-4xl mx-auto">
+<div class="min-h-screen bg-linear-to-br from-indigo-500 via-purple-500 to-pink-500 py-12 px-4">
+    <div class="max-w-5xl mx-auto">
         <!-- Header con selector de idioma -->
-        <div class="flex justify-between items-center mb-8">
-            <div class="text-white">
-                <h1 class="text-5xl font-black drop-shadow-lg mb-2">
+        <div class="flex justify-between items-start mb-12">
+            <div class="flex-1">
+                <h1 class="text-5xl font-extrabold text-white mb-4 drop-shadow-lg">
                     {{ 'app.title' | translate }}
                 </h1>
-                <p class="text-xl font-semibold drop-shadow">
+                <p class="text-xl text-white/90 drop-shadow">
                     {{ 'app.subtitle' | translate }}
                 </p>
             </div>
-            <div class="bg-white rounded-lg shadow-lg p-4">
-                <label class="block text-sm font-bold text-gray-700 mb-2">
+            
+            <!-- Selector de idioma flotante -->
+            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 shadow-xl">
+                <label class="block text-sm font-semibold text-white mb-2">
                     {{ 'language.select' | translate }}
                 </label>
-                <select
-                    [ngModel]="currentLanguage()"
-                    (ngModelChange)="changeLanguage($event)"
-                    class="px-4 py-2 border-2 border-gray-300 rounded-lg font-semibold cursor-pointer hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                    <option value="es">{{ 'language.es' | translate }}</option>
-                    <option value="en">{{ 'language.en' | translate }}</option>
-                    <option value="de">{{ 'language.de' | translate }}</option>
-                    <option value="fr">{{ 'language.fr' | translate }}</option>
-                </select>
+                <div class="relative">
+                    <select
+                        [ngModel]="currentLanguage()"
+                        (ngModelChange)="changeLanguage($event)"
+                        class="appearance-none bg-white/90 backdrop-blur rounded-xl px-4 py-2.5 pr-10 text-gray-800 font-semibold cursor-pointer hover:bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-purple-500 transition-all shadow-lg"
+                    >
+                        <option value="es">🇪🇸 {{ 'language.es' | translate }}</option>
+                        <option value="en">🇬🇧 {{ 'language.en' | translate }}</option>
+                        <option value="de">🇩🇪 {{ 'language.de' | translate }}</option>
+                        <option value="fr">🇫🇷 {{ 'language.fr' | translate }}</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-600">
+                        <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Tarjeta de búsqueda con estilo LEGO -->
-        <div class="bg-white rounded-3xl shadow-2xl p-8 border-8 border-gray-800">
-            <!-- Efecto de "conectores" LEGO en la parte superior -->
-            <div class="flex justify-center gap-4 -mt-12 mb-6">
-                <div
-                    class="w-12 h-12 bg-red-500 rounded-full border-4 border-gray-800 shadow-lg"
-                ></div>
-                <div
-                    class="w-12 h-12 bg-yellow-400 rounded-full border-4 border-gray-800 shadow-lg"
-                ></div>
-                <div
-                    class="w-12 h-12 bg-blue-500 rounded-full border-4 border-gray-800 shadow-lg"
-                ></div>
-                <div
-                    class="w-12 h-12 bg-green-500 rounded-full border-4 border-gray-800 shadow-lg"
-                ></div>
+        <!-- Tarjeta principal de búsqueda -->
+        <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 backdrop-blur-sm border border-gray-100">
+            <!-- Decoración superior -->
+            <div class="flex justify-center mb-8">
+                <div class="flex gap-3">
+                    <div class="w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+                    <div class="w-4 h-4 bg-yellow-500 rounded-full animate-pulse delay-75"></div>
+                    <div class="w-4 h-4 bg-green-500 rounded-full animate-pulse delay-150"></div>
+                    <div class="w-4 h-4 bg-blue-500 rounded-full animate-pulse delay-200"></div>
+                </div>
             </div>
 
-            <h2 class="text-3xl font-black text-gray-800 mb-6 text-center">
-                {{ 'search.title' | translate }}
-            </h2>
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-900 mb-3">
+                    {{ 'search.title' | translate }}
+                </h2>
+                <p class="text-gray-600 text-lg">
+                    {{ 'search.help' | translate }}
+                </p>
+            </div>
 
-            <form (ngSubmit)="onSearch()" class="space-y-6">
-                <div>
-                    <label for="setNumber" class="block text-lg font-bold text-gray-700 mb-2">
-                        {{ 'search.help' | translate }}
-                    </label>
+            <form (ngSubmit)="onSearch()" class="max-w-2xl mx-auto">
+                <div class="relative group mb-6">
+                    <div class="absolute -inset-1 bg-linear-to-r from-purple-600 to-pink-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-300"></div>
                     <input
                         id="setNumber"
                         type="text"
@@ -61,32 +67,22 @@
                         (ngModelChange)="setNumber.set($event)"
                         name="setNumber"
                         [placeholder]="'search.placeholder' | translate"
-                        class="w-full px-6 py-4 text-xl border-4 border-gray-300 rounded-xl font-semibold focus:outline-none focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                        class="relative w-full px-6 py-5 text-lg border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20 transition-all bg-white shadow-lg"
                     />
                 </div>
 
                 <button
                     type="submit"
                     [disabled]="!setNumber().trim()"
-                    class="w-full bg-linear-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-black text-2xl py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 disabled:hover:translate-y-0 transition-all duration-200 border-4 border-gray-800 disabled:cursor-not-allowed"
+                    class="relative w-full group overflow-hidden rounded-2xl"
                 >
-                    🔍 {{ 'search.button' | translate }}
+                    <div class="absolute inset-0 bg-linear-to-r from-purple-600 via-pink-600 to-purple-600 bg-size-[200%_100%] animate-gradient"></div>
+                    <div class="absolute inset-0 bg-linear-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <span class="relative block px-8 py-5 text-white font-bold text-xl disabled:opacity-50 transition-all group-hover:scale-[1.02] disabled:group-hover:scale-100">
+                        🔍 {{ 'search.button' | translate }}
+                    </span>
                 </button>
             </form>
-
-            <!-- Decoración inferior con más "conectores" -->
-            <div class="flex justify-center gap-6 mt-8">
-                <div class="w-8 h-8 bg-green-500 rounded-full border-4 border-gray-800"></div>
-                <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-gray-800"></div>
-                <div class="w-8 h-8 bg-yellow-400 rounded-full border-4 border-gray-800"></div>
-                <div class="w-8 h-8 bg-red-500 rounded-full border-4 border-gray-800"></div>
-                <div class="w-8 h-8 bg-purple-500 rounded-full border-4 border-gray-800"></div>
-            </div>
-        </div>
-
-        <!-- Información adicional -->
-        <div class="mt-8 text-center text-white drop-shadow-lg">
-            <p class="text-lg font-semibold">🧱 LEGO® & Bricklink Cart Planning Tool</p>
         </div>
     </div>
 </div>
