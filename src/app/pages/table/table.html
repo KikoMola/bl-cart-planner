@@ -55,6 +55,11 @@
                                 <th
                                     class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
                                 >
+                                    Image
+                                </th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
+                                >
                                     Description
                                 </th>
                                 <th
@@ -72,6 +77,22 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @for (piece of pieces(); track piece.itemNo) {
                                 <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        @if (piece.imageUrl) {
+                                            <img
+                                                [src]="piece.imageUrl"
+                                                [alt]="piece.description"
+                                                loading="lazy"
+                                                class="w-16 h-16 object-contain"
+                                            />
+                                        } @else {
+                                            <div
+                                                class="w-16 h-16 bg-gray-100 rounded flex items-center justify-center"
+                                            >
+                                                <span class="text-gray-400 text-xs">Sin imagen</span>
+                                            </div>
+                                        }
+                                    </td>
                                     <td class="px-6 py-4 whitespace-normal">
                                         <div class="text-sm font-medium text-gray-900">
                                             {{ piece.description }}
