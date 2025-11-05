@@ -20,6 +20,9 @@ export class Home {
     private translateService = inject(TranslateService);
     private bricklinkService = inject(Bricklink);
 
+    private readonly LANG_STORAGE_KEY = 'blcpl-lang';
+    private readonly SUPPORTED_LANGUAGES = ['es', 'en', 'de', 'fr'];
+
     setNumber = signal('');
     currentLanguage = signal('en');
     isSearching = signal(false);
@@ -27,13 +30,35 @@ export class Home {
     errorMessage = signal<string | null>(null);
 
     constructor() {
-        // Inicializar el idioma por defecto
-        this.translateService.setFallbackLang('en');
-        this.translateService.use('en');
+        this.initializeLanguage();
     }
 
     ngOnInit(): void {
         this.currentLanguage.set(this.translateService.currentLang || 'en');
+    }
+
+    private initializeLanguage(): void {
+        // Intentar obtener el idioma del localStorage
+        const storedLang = localStorage.getItem(this.LANG_STORAGE_KEY);
+
+        if (storedLang && this.SUPPORTED_LANGUAGES.includes(storedLang)) {
+            // Si existe y es válido, usarlo
+            this.translateService.setFallbackLang(storedLang);
+            this.translateService.use(storedLang);
+            this.currentLanguage.set(storedLang);
+        } else {
+            // Si no existe, obtener el idioma del navegador
+            const browserLang = navigator.language.split('-')[0];
+            const langToUse = this.SUPPORTED_LANGUAGES.includes(browserLang)
+                ? browserLang
+                : 'en';
+
+            // Configurar y guardar en localStorage
+            this.translateService.setFallbackLang(langToUse);
+            this.translateService.use(langToUse);
+            this.currentLanguage.set(langToUse);
+            localStorage.setItem(this.LANG_STORAGE_KEY, langToUse);
+        }
     }
 
     onSearch(): void {
@@ -101,5 +126,7 @@ export class Home {
     changeLanguage(lang: string): void {
         this.translateService.use(lang);
         this.currentLanguage.set(lang);
+        // Guardar el idioma seleccionado en localStorage
+        localStorage.setItem(this.LANG_STORAGE_KEY, lang);
     }
 }
