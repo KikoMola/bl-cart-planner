@@ -28,7 +28,7 @@ export class Home {
 
     constructor() {
         // Inicializar el idioma por defecto
-        this.translateService.setDefaultLang('en');
+        this.translateService.setFallbackLang('en');
         this.translateService.use('en');
     }
 
