@@ -11,7 +11,7 @@ export class Bricklink {
     private readonly SEARCH_URL = 'https://www.bricklink.com/ajax/clone/search/searchproduct.ajax';
     private readonly ITEM_DETAILS_URL =
         'https://www.bricklink.com/ajax/renovate/catalog/getItemImageList.ajax';
-    private readonly INVENTORY_URL = 'https://www.bricklink.com/v2/catalog/catalogitem_invtab.page';
+    private readonly INVENTORY_URL = '/api/bricklink';
 
     searchSet(setNumber: string): Observable<BricklinkSearchResponse> {
         const params = {
