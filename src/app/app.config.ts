@@ -22,7 +22,7 @@ export const appConfig: ApplicationConfig = {
             defaultLanguage: 'en',
         }),
         provideTranslateHttpLoader({
-            prefix: '/assets/i18n/',
+            prefix: '/i18n/',
             suffix: '.json',
         }),
     ],

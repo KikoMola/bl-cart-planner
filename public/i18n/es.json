@@ -1,0 +1,19 @@
+{
+    "app": {
+        "title": "Planificador de Carritos Bricklink",
+        "subtitle": "Calcula el coste de tu próximo set de LEGO"
+    },
+    "search": {
+        "title": "Buscar Set LEGO",
+        "placeholder": "Ingresa el número de set (ej: 75192)",
+        "button": "Buscar Set",
+        "help": "Introduce el número del set LEGO que quieres planificar"
+    },
+    "language": {
+        "select": "Idioma",
+        "es": "Español",
+        "en": "English",
+        "de": "Deutsch",
+        "fr": "Français"
+    }
+}

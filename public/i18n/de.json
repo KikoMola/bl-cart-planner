@@ -1,0 +1,19 @@
+{
+    "app": {
+        "title": "Bricklink Warenkorb-Planer",
+        "subtitle": "Berechnen Sie die Kosten Ihres nächsten LEGO-Sets"
+    },
+    "search": {
+        "title": "LEGO-Set suchen",
+        "placeholder": "Set-Nummer eingeben (z.B: 75192)",
+        "button": "Set suchen",
+        "help": "Geben Sie die LEGO-Set-Nummer ein, die Sie planen möchten"
+    },
+    "language": {
+        "select": "Sprache",
+        "es": "Español",
+        "en": "English",
+        "de": "Deutsch",
+        "fr": "Français"
+    }
+}

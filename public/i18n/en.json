@@ -1,0 +1,19 @@
+{
+    "app": {
+        "title": "Bricklink Cart Planner",
+        "subtitle": "Calculate the cost of your next LEGO set"
+    },
+    "search": {
+        "title": "Search LEGO Set",
+        "placeholder": "Enter set number (e.g: 75192)",
+        "button": "Search Set",
+        "help": "Enter the LEGO set number you want to plan"
+    },
+    "language": {
+        "select": "Language",
+        "es": "Español",
+        "en": "English",
+        "de": "Deutsch",
+        "fr": "Français"
+    }
+}
