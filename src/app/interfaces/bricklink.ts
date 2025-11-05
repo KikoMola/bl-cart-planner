@@ -72,3 +72,10 @@ export interface Imglist {
     idColorImg: number;
     typeItem: string;
 }
+
+export interface BricklinkPiece {
+    description: string;
+    itemNo: string;
+    quantity: number;
+    imageUrl: string;
+}

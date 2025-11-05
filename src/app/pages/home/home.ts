@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Bricklink } from '../../services/bricklink';
 import { Item, BricklinkItem } from '../../interfaces/bricklink';
 import { forkJoin } from 'rxjs';
@@ -19,6 +20,7 @@ interface ItemWithDetails {
 export class Home {
     private translateService = inject(TranslateService);
     private bricklinkService = inject(Bricklink);
+    private router = inject(Router);
 
     private readonly LANG_STORAGE_KEY = 'blcpl-lang';
     private readonly SUPPORTED_LANGUAGES = ['es', 'en', 'de', 'fr'];
@@ -49,9 +51,7 @@ export class Home {
         } else {
             // Si no existe, obtener el idioma del navegador
             const browserLang = navigator.language.split('-')[0];
-            const langToUse = this.SUPPORTED_LANGUAGES.includes(browserLang)
-                ? browserLang
-                : 'en';
+            const langToUse = this.SUPPORTED_LANGUAGES.includes(browserLang) ? browserLang : 'en';
 
             // Configurar y guardar en localStorage
             this.translateService.setFallbackLang(langToUse);
@@ -70,43 +70,39 @@ export class Home {
         this.items.set([]);
 
         this.bricklinkService.searchSet(setNumberValue).subscribe({
-            next: (response) => {
+            next: response => {
                 console.log('Search results:', response);
 
                 if (response.returnCode === 0 && response.result.typeList.length > 0) {
                     const items = response.result.typeList[0].items;
 
                     // Crear un array de observables para obtener los detalles de cada item
-                    const detailRequests = items.map((item) =>
+                    const detailRequests = items.map(item =>
                         this.bricklinkService.getItemDetails(item.idItem)
                     );
 
                     // Ejecutar todas las peticiones en paralelo
                     forkJoin(detailRequests).subscribe({
-                        next: (detailsArray) => {
-                            const itemsWithDetails: ItemWithDetails[] = items.map(
-                                (item, index) => {
-                                    const details = detailsArray[index];
-                                    // Buscar la imagen con type 'L'
-                                    const largeImage = details.item.imglist.find(
-                                        (img) => img.type === 'L'
-                                    );
-                                    return {
-                                        searchItem: item,
-                                        details: details,
-                                        imageUrl: largeImage?.main_url || '',
-                                    };
-                                }
-                            );
+                        next: detailsArray => {
+                            const itemsWithDetails: ItemWithDetails[] = items.map((item, index) => {
+                                const details = detailsArray[index];
+                                // Buscar la imagen con type 'L'
+                                const largeImage = details.item.imglist.find(
+                                    img => img.type === 'L'
+                                );
+                                return {
+                                    searchItem: item,
+                                    details: details,
+                                    imageUrl: largeImage?.main_url || '',
+                                };
+                            });
 
                             this.items.set(itemsWithDetails);
                             this.isSearching.set(false);
                         },
-                        error: (error) => {
+                        error: error => {
                             console.error('Error getting item details:', error);
-                            this.errorMessage.set(
-                                'Error al obtener detalles de los items.'
-                            );
+                            this.errorMessage.set('Error al obtener detalles de los items.');
                             this.isSearching.set(false);
                         },
                     });
@@ -115,7 +111,7 @@ export class Home {
                     this.isSearching.set(false);
                 }
             },
-            error: (error) => {
+            error: error => {
                 console.error('Search error:', error);
                 this.errorMessage.set('Error al buscar el set. Por favor, intenta de nuevo.');
                 this.isSearching.set(false);
@@ -128,5 +124,9 @@ export class Home {
         this.currentLanguage.set(lang);
         // Guardar el idioma seleccionado en localStorage
         localStorage.setItem(this.LANG_STORAGE_KEY, lang);
+    }
+
+    navigateToTable(idItem: number): void {
+        this.router.navigate(['/table', idItem]);
     }
 }

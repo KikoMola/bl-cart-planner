@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { BricklinkSearchResponse, BricklinkItem } from '../interfaces/bricklink';
+import { Observable, map } from 'rxjs';
+import { BricklinkSearchResponse, BricklinkItem, BricklinkPiece } from '../interfaces/bricklink';
 
 @Injectable({
     providedIn: 'root',
 })
 export class Bricklink {
     private http = inject(HttpClient);
-    private readonly SEARCH_URL =
-        'https://www.bricklink.com/ajax/clone/search/searchproduct.ajax';
+    private readonly SEARCH_URL = 'https://www.bricklink.com/ajax/clone/search/searchproduct.ajax';
     private readonly ITEM_DETAILS_URL =
         'https://www.bricklink.com/ajax/renovate/catalog/getItemImageList.ajax';
+    private readonly INVENTORY_URL = 'https://www.bricklink.com/v2/catalog/catalogitem_invtab.page';
 
     searchSet(setNumber: string): Observable<BricklinkSearchResponse> {
         const params = {
@@ -53,5 +53,61 @@ export class Bricklink {
         return this.http.get<BricklinkItem>(this.ITEM_DETAILS_URL, {
             params,
         });
+    }
+
+    getItemInventory(idItem: number): Observable<BricklinkPiece[]> {
+        const params = {
+            idItem: idItem.toString(),
+            st: '1',
+            show_invid: '0',
+            show_matchcolor: '1',
+        };
+
+        return this.http
+            .get(this.INVENTORY_URL, {
+                params,
+                responseType: 'text',
+            })
+            .pipe(map(html => this.parseInventoryHTML(html)));
+    }
+
+    private parseInventoryHTML(html: string): BricklinkPiece[] {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const pieces: BricklinkPiece[] = [];
+
+        // Buscar todas las filas con clase pciinvItemRow
+        const rows = doc.querySelectorAll('tr.pciinvItemRow');
+
+        rows.forEach(row => {
+            // Extraer imagen
+            const imgElement = row.querySelector('img[src*="ItemImage"]');
+            const imageUrl = imgElement ? 'https:' + imgElement.getAttribute('src') : '';
+
+            // Extraer cantidad
+            const qtyCell = row.querySelectorAll('td')[2];
+            const quantity = qtyCell ? parseInt(qtyCell.textContent?.trim() || '0', 10) : 0;
+
+            // Extraer número de item
+            const itemNoLink = row.querySelector('a[href*="catalogitem.page"]');
+            const itemNo = itemNoLink ? itemNoLink.textContent?.trim() || '' : '';
+
+            // Extraer descripción (está en el tag <b> dentro del td con text-align: left)
+            const descCell = row.querySelector('td[style*="text-align: left"]');
+            const descBold = descCell?.querySelector('b');
+            const description = descBold ? descBold.textContent?.trim() || '' : '';
+
+            // Solo agregar si tenemos los datos mínimos
+            if (itemNo && description) {
+                pieces.push({
+                    description,
+                    itemNo,
+                    quantity,
+                    imageUrl,
+                });
+            }
+        });
+
+        return pieces;
     }
 }
