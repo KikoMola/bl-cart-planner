@@ -1,17 +1,23 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
+import { Bricklink } from '../../services/bricklink';
+import { BricklinkSearchResponse } from '../../interfaces/bricklink';
 
 @Component({
     selector: 'app-home',
     imports: [TranslateModule, FormsModule],
-    templateUrl: './home.html'
+    templateUrl: './home.html',
 })
 export class Home {
     private translateService = inject(TranslateService);
+    private bricklinkService = inject(Bricklink);
 
     setNumber = signal('');
     currentLanguage = signal('en');
+    isSearching = signal(false);
+    searchResults = signal<BricklinkSearchResponse | null>(null);
+    errorMessage = signal<string | null>(null);
 
     constructor() {
         // Inicializar el idioma por defecto
@@ -24,10 +30,24 @@ export class Home {
     }
 
     onSearch(): void {
-        if (this.setNumber().trim()) {
-            console.log('Searching for set:', this.setNumber());
-            // Funcionalidad de búsqueda se implementará después
-        }
+        const setNumberValue = this.setNumber().trim();
+        if (!setNumberValue) return;
+
+        this.isSearching.set(true);
+        this.errorMessage.set(null);
+
+        this.bricklinkService.searchSet(setNumberValue).subscribe({
+            next: (response) => {
+                console.log('Search results:', response);
+                this.searchResults.set(response);
+                this.isSearching.set(false);
+            },
+            error: (error) => {
+                console.error('Search error:', error);
+                this.errorMessage.set('Error al buscar el set. Por favor, intenta de nuevo.');
+                this.isSearching.set(false);
+            },
+        });
     }
 
     changeLanguage(lang: string): void {
