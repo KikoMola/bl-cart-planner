@@ -1,15 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BricklinkSearchResponse } from '../interfaces/bricklink';
+import { BricklinkSearchResponse, BricklinkItem } from '../interfaces/bricklink';
 
 @Injectable({
     providedIn: 'root',
 })
 export class Bricklink {
     private http = inject(HttpClient);
-    private readonly BASE_URL =
+    private readonly SEARCH_URL =
         'https://www.bricklink.com/ajax/clone/search/searchproduct.ajax';
+    private readonly ITEM_DETAILS_URL =
+        'https://www.bricklink.com/ajax/renovate/catalog/getItemImageList.ajax';
 
     searchSet(setNumber: string): Observable<BricklinkSearchResponse> {
         const params = {
@@ -38,7 +40,17 @@ export class Bricklink {
             ci: '0',
         };
 
-        return this.http.get<BricklinkSearchResponse>(this.BASE_URL, {
+        return this.http.get<BricklinkSearchResponse>(this.SEARCH_URL, {
+            params,
+        });
+    }
+
+    getItemDetails(idItem: number): Observable<BricklinkItem> {
+        const params = {
+            idItem: idItem.toString(),
+        };
+
+        return this.http.get<BricklinkItem>(this.ITEM_DETAILS_URL, {
             params,
         });
     }
