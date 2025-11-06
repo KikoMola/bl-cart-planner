@@ -36,8 +36,8 @@
     "savedCarts": {
         "title": "Carritos Guardados",
         "noSavedCarts": "No hay carritos guardados",
-        "loadCart": "Cargar",
-        "deleteCart": "Eliminar",
+        "loadCart": "Ir",
+        "deleteCart": "Borrar",
         "confirmDelete": "¿Eliminar este carrito?",
         "savedAt": "Guardado el"
     }

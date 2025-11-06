@@ -36,7 +36,7 @@
     "savedCarts": {
         "title": "Saved Carts",
         "noSavedCarts": "No saved carts",
-        "loadCart": "Load",
+        "loadCart": "Go",
         "deleteCart": "Delete",
         "confirmDelete": "Delete this cart?",
         "savedAt": "Saved on"

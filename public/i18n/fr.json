@@ -36,7 +36,7 @@
     "savedCarts": {
         "title": "Paniers Enregistrés",
         "noSavedCarts": "Aucun panier enregistré",
-        "loadCart": "Charger",
+        "loadCart": "Ouvrir",
         "deleteCart": "Supprimer",
         "confirmDelete": "Supprimer ce panier?",
         "savedAt": "Enregistré le"
