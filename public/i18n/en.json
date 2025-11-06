@@ -19,6 +19,8 @@
     "table": {
         "title": "Set Pieces",
         "backToSearch": "Back to Search",
+        "saveCart": "Save cart locally",
+        "cartSaved": "Cart saved successfully",
         "loading": "Loading pieces...",
         "error": "Error",
         "image": "Image",

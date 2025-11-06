@@ -19,6 +19,8 @@
     "table": {
         "title": "Pièces du Set",
         "backToSearch": "Retour à la recherche",
+        "saveCart": "Enregistrer le panier localement",
+        "cartSaved": "Panier enregistré avec succès",
         "loading": "Chargement des pièces...",
         "error": "Erreur",
         "image": "Image",

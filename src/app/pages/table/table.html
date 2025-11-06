@@ -1,5 +1,15 @@
 <div class="min-h-screen bg-linear-to-br from-indigo-500 via-purple-500 to-pink-500 py-12 px-4">
     <div class="max-w-7xl mx-auto">
+        <!-- Back to Search Button - Top Left -->
+        @if (!isLoading() && !errorMessage() && pieces().length > 0) {
+            <button
+                (click)="navigateToSearch()"
+                class="mb-6 px-6 py-3 bg-white text-purple-600 rounded-xl font-semibold hover:bg-gray-100 transition-colors shadow-lg"
+            >
+                ← {{ 'table.backToSearch' | translate }}
+            </button>
+        }
+
         <!-- Loading State -->
         @if (isLoading()) {
             <div class="flex items-center justify-center py-20">
@@ -58,10 +68,10 @@
                         {{ 'table.title' | translate }}
                     </h1>
                     <button
-                        (click)="navigateToSearch()"
+                        (click)="saveCart()"
                         class="px-6 py-3 bg-white text-purple-600 rounded-xl font-semibold hover:bg-gray-100 transition-colors"
                     >
-                        ← {{ 'table.backToSearch' | translate }}
+                        💾 {{ 'table.saveCart' | translate }}
                     </button>
                 </div>
 

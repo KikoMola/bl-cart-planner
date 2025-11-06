@@ -19,6 +19,8 @@
     "table": {
         "title": "Set-Teile",
         "backToSearch": "Zurück zur Suche",
+        "saveCart": "Warenkorb lokal speichern",
+        "cartSaved": "Warenkorb erfolgreich gespeichert",
         "loading": "Teile werden geladen...",
         "error": "Fehler",
         "image": "Bild",
