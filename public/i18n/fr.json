@@ -20,6 +20,8 @@
         "title": "Pièces du Set",
         "backToSearch": "Retour à la recherche",
         "saveCart": "Enregistrer le panier localement",
+        "cartName": "Nom du panier (optionnel)",
+        "cartNamePlaceholder": "Ex: Millennium Falcon - Décembre 2025",
         "cartSaved": "Panier enregistré avec succès",
         "loading": "Chargement des pièces...",
         "error": "Erreur",
@@ -30,5 +32,13 @@
         "price": "Prix",
         "totalPrice": "Prix Total",
         "noImage": "Pas d'image"
+    },
+    "savedCarts": {
+        "title": "Paniers Enregistrés",
+        "noSavedCarts": "Aucun panier enregistré",
+        "loadCart": "Charger",
+        "deleteCart": "Supprimer",
+        "confirmDelete": "Supprimer ce panier?",
+        "savedAt": "Enregistré le"
     }
 }

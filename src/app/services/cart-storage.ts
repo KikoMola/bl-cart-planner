@@ -9,7 +9,7 @@ export class CartStorage {
     private readonly STORAGE_KEY = 'blcpl-carts';
     private readonly MAX_CARTS = 10; // Límite de carritos guardados
 
-    saveCart(idItem: number, pieces: BricklinkPiece[]): string {
+    saveCart(idItem: number, pieces: BricklinkPiece[], name?: string): string {
         const carts = this.getAllCarts();
 
         // Crear ID único basado en timestamp
@@ -26,6 +26,7 @@ export class CartStorage {
 
         const newCart: SavedCart = {
             id: cartId,
+            name: name || undefined,
             idItem,
             pieces: optimizedPieces as any,
             savedAt: Date.now(),

@@ -46,6 +46,48 @@
             </div>
         </div>
 
+        <!-- Saved Carts Section -->
+        @if (savedCarts().length > 0) {
+            <div class="mt-8 bg-white rounded-3xl shadow-2xl p-8 backdrop-blur-sm border border-gray-100">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                    💾 {{ 'savedCarts.title' | translate }}
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    @for (cart of savedCarts(); track cart.id) {
+                        <div class="bg-linear-to-br from-purple-50 to-pink-50 rounded-xl p-4 border-2 border-purple-100 hover:border-purple-300 transition-all hover:shadow-lg">
+                            <div class="flex justify-between items-start mb-3">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900 text-lg mb-1">
+                                        {{ cart.name || ('Item #' + cart.idItem) }}
+                                    </h3>
+                                    <p class="text-sm text-gray-600">
+                                        {{ 'savedCarts.savedAt' | translate }}: {{ cart.savedAt | date: 'dd/MM/yyyy HH:mm' }}
+                                    </p>
+                                    <p class="text-sm text-gray-500 mt-1">
+                                        {{ getCartPiecesCount(cart) }} piezas
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button
+                                    (click)="loadCart(cart)"
+                                    class="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+                                >
+                                    📂 {{ 'savedCarts.loadCart' | translate }}
+                                </button>
+                                <button
+                                    (click)="deleteCart(cart)"
+                                    class="px-4 py-2 bg-red-100 text-red-600 rounded-lg font-semibold hover:bg-red-200 transition-colors"
+                                >
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
         <!-- Tarjeta principal de búsqueda -->
         <div
             class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 backdrop-blur-sm border border-gray-100"

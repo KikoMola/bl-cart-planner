@@ -24,11 +24,22 @@ export class Table implements OnInit {
     pieces = signal<BricklinkPiece[]>([]);
     isLoading = signal(false);
     errorMessage = signal<string | null>(null);
+    cartName = signal('');
     private currentItemId: number | null = null;
 
     ngOnInit(): void {
         const idItem = this.tableState.getItemId();
+        const loadedPieces = this.tableState.getPieces();
 
+        // Si hay piezas precargadas (desde carrito guardado), usarlas directamente
+        if (loadedPieces) {
+            this.currentItemId = idItem;
+            this.pieces.set(loadedPieces);
+            this.tableState.clearPieces(); // Limpiar después de usar
+            return;
+        }
+
+        // Si no, cargar desde Bricklink
         if (idItem) {
             this.currentItemId = idItem;
             this.loadInventory(idItem);
@@ -51,7 +62,8 @@ export class Table implements OnInit {
         }
 
         try {
-            const cartId = this.cartStorage.saveCart(this.currentItemId, this.pieces());
+            const name = this.cartName().trim() || undefined;
+            const cartId = this.cartStorage.saveCart(this.currentItemId, this.pieces(), name);
             const storageSize = this.cartStorage.getStorageSize();
 
             console.log(`Cart saved with ID: ${cartId}`);
@@ -59,6 +71,9 @@ export class Table implements OnInit {
 
             // Mostrar mensaje de éxito al usuario
             alert(this.translateService.instant('table.cartSaved'));
+
+            // Limpiar el nombre del carrito después de guardar
+            this.cartName.set('');
         } catch (error) {
             console.error('Error saving cart:', error);
             alert('Error al guardar el carrito. Intenta de nuevo.');

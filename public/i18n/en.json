@@ -20,6 +20,8 @@
         "title": "Set Pieces",
         "backToSearch": "Back to Search",
         "saveCart": "Save cart locally",
+        "cartName": "Cart name (optional)",
+        "cartNamePlaceholder": "E.g: Millennium Falcon - December 2025",
         "cartSaved": "Cart saved successfully",
         "loading": "Loading pieces...",
         "error": "Error",
@@ -30,5 +32,13 @@
         "price": "Price",
         "totalPrice": "Total Price",
         "noImage": "No image"
+    },
+    "savedCarts": {
+        "title": "Saved Carts",
+        "noSavedCarts": "No saved carts",
+        "loadCart": "Load",
+        "deleteCart": "Delete",
+        "confirmDelete": "Delete this cart?",
+        "savedAt": "Saved on"
     }
 }

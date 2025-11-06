@@ -20,6 +20,8 @@
         "title": "Set-Teile",
         "backToSearch": "Zurück zur Suche",
         "saveCart": "Warenkorb lokal speichern",
+        "cartName": "Warenkorbname (optional)",
+        "cartNamePlaceholder": "Z.B: Millennium Falcon - Dezember 2025",
         "cartSaved": "Warenkorb erfolgreich gespeichert",
         "loading": "Teile werden geladen...",
         "error": "Fehler",
@@ -30,5 +32,13 @@
         "price": "Preis",
         "totalPrice": "Gesamtpreis",
         "noImage": "Kein Bild"
+    },
+    "savedCarts": {
+        "title": "Gespeicherte Warenkörbe",
+        "noSavedCarts": "Keine gespeicherten Warenkörbe",
+        "loadCart": "Laden",
+        "deleteCart": "Löschen",
+        "confirmDelete": "Diesen Warenkorb löschen?",
+        "savedAt": "Gespeichert am"
     }
 }
