@@ -31,7 +31,10 @@
         "quantity": "Menge",
         "price": "Preis",
         "totalPrice": "Gesamtpreis",
-        "noImage": "Kein Bild"
+        "noImage": "Kein Bild",
+        "subtotal": "Teile Zwischensumme",
+        "shipping": "Versand",
+        "grandTotal": "GESAMT"
     },
     "savedCarts": {
         "title": "Gespeicherte Warenkörbe",

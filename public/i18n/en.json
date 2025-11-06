@@ -31,7 +31,10 @@
         "quantity": "Quantity",
         "price": "Price",
         "totalPrice": "Total Price",
-        "noImage": "No image"
+        "noImage": "No image",
+        "subtotal": "Pieces Subtotal",
+        "shipping": "Shipping",
+        "grandTotal": "TOTAL"
     },
     "savedCarts": {
         "title": "Saved Carts",

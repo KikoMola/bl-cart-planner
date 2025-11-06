@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { Bricklink } from '../../services/bricklink';
 import { TableState } from '../../services/table-state';
@@ -25,8 +25,21 @@ export class Table implements OnInit {
     isLoading = signal(false);
     errorMessage = signal<string | null>(null);
     cartName = signal('');
+    shippingCost = signal(0);
     private currentItemId: number | null = null;
     private currentCartId: string | null = null;
+
+    // Computed para suma de precios totales
+    totalPiecesPrice = computed(() => {
+        return this.pieces().reduce((sum, piece) => {
+            return sum + this.calculateTotalPrice(piece);
+        }, 0);
+    });
+
+    // Computed para suma final
+    grandTotal = computed(() => {
+        return this.totalPiecesPrice() + (this.shippingCost() || 0);
+    });
 
     ngOnInit(): void {
         const idItem = this.tableState.getItemId();

@@ -31,7 +31,10 @@
         "quantity": "Cantidad",
         "price": "Precio",
         "totalPrice": "Precio Total",
-        "noImage": "Sin imagen"
+        "noImage": "Sin imagen",
+        "subtotal": "Subtotal Piezas",
+        "shipping": "Envío",
+        "grandTotal": "TOTAL"
     },
     "savedCarts": {
         "title": "Carritos Guardados",

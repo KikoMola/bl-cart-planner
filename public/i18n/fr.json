@@ -31,7 +31,10 @@
         "quantity": "Quantité",
         "price": "Prix",
         "totalPrice": "Prix Total",
-        "noImage": "Pas d'image"
+        "noImage": "Pas d'image",
+        "subtotal": "Sous-total Pièces",
+        "shipping": "Livraison",
+        "grandTotal": "TOTAL"
     },
     "savedCarts": {
         "title": "Paniers Enregistrés",
