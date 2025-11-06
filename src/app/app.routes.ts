@@ -8,7 +8,7 @@ export const routes: Routes = [
         component: Home,
     },
     {
-        path: 'table/:idItem',
+        path: 'table',
         component: Table,
     },
 ];

@@ -3,6 +3,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Bricklink } from '../../services/bricklink';
+import { TableState } from '../../services/table-state';
 import { Item, BricklinkItem } from '../../interfaces/bricklink';
 import { forkJoin } from 'rxjs';
 
@@ -21,6 +22,7 @@ export class Home {
     private translateService = inject(TranslateService);
     private bricklinkService = inject(Bricklink);
     private router = inject(Router);
+    private tableState = inject(TableState);
 
     private readonly LANG_STORAGE_KEY = 'blcpl-lang';
     private readonly SUPPORTED_LANGUAGES = ['es', 'en', 'de', 'fr'];
@@ -127,6 +129,7 @@ export class Home {
     }
 
     navigateToTable(idItem: number): void {
-        this.router.navigate(['/table', idItem]);
+        this.tableState.setItemId(idItem);
+        this.router.navigate(['/table']);
     }
 }

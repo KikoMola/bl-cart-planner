@@ -1,6 +1,7 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Bricklink } from '../../services/bricklink';
+import { TableState } from '../../services/table-state';
 import { BricklinkPiece } from '../../interfaces/bricklink';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
@@ -13,19 +14,19 @@ import { DecimalPipe } from '@angular/common';
     styles: ``,
 })
 export class Table implements OnInit {
-    private route = inject(ActivatedRoute);
     private router = inject(Router);
     private bricklinkService = inject(Bricklink);
+    private tableState = inject(TableState);
 
     pieces = signal<BricklinkPiece[]>([]);
     isLoading = signal(false);
     errorMessage = signal<string | null>(null);
 
     ngOnInit(): void {
-        const idItem = this.route.snapshot.paramMap.get('idItem');
+        const idItem = this.tableState.getItemId();
 
         if (idItem) {
-            this.loadInventory(parseInt(idItem, 10));
+            this.loadInventory(idItem);
         } else {
             this.errorMessage.set('ID de item no proporcionado');
         }
