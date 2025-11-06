@@ -26,22 +26,29 @@ export class Table implements OnInit {
     errorMessage = signal<string | null>(null);
     cartName = signal('');
     private currentItemId: number | null = null;
+    private currentCartId: string | null = null;
 
     ngOnInit(): void {
         const idItem = this.tableState.getItemId();
         const loadedPieces = this.tableState.getPieces();
+        const cartId = this.tableState.getCartId();
+        const cartName = this.tableState.getCartName();
 
         // Si hay piezas precargadas (desde carrito guardado), usarlas directamente
         if (loadedPieces) {
             this.currentItemId = idItem;
+            this.currentCartId = cartId;
+            this.cartName.set(cartName || '');
             this.pieces.set(loadedPieces);
             this.tableState.clearPieces(); // Limpiar después de usar
+            this.tableState.clearCart(); // Limpiar info del carrito
             return;
         }
 
-        // Si no, cargar desde Bricklink
+        // Si no, cargar desde Bricklink (nueva búsqueda)
         if (idItem) {
             this.currentItemId = idItem;
+            this.currentCartId = null; // No hay cartId en búsqueda nueva
             this.loadInventory(idItem);
         } else {
             this.errorMessage.set('ID de item no proporcionado');
@@ -63,17 +70,27 @@ export class Table implements OnInit {
 
         try {
             const name = this.cartName().trim() || undefined;
-            const cartId = this.cartStorage.saveCart(this.currentItemId, this.pieces(), name);
-            const storageSize = this.cartStorage.getStorageSize();
 
-            console.log(`Cart saved with ID: ${cartId}`);
-            console.log(`Storage size: ${storageSize.toFixed(2)} KB`);
+            // Si hay cartId, actualizar el existente
+            if (this.currentCartId) {
+                this.cartStorage.updateCart(this.currentCartId, this.pieces(), name);
+                const storageSize = this.cartStorage.getStorageSize();
 
-            // Mostrar mensaje de éxito al usuario
-            alert(this.translateService.instant('table.cartSaved'));
+                console.log(`Cart updated with ID: ${this.currentCartId}`);
+                console.log(`Storage size: ${storageSize.toFixed(2)} KB`);
 
-            // Limpiar el nombre del carrito después de guardar
-            this.cartName.set('');
+                alert(this.translateService.instant('table.cartSaved'));
+            } else {
+                // Si no hay cartId, crear uno nuevo
+                const cartId = this.cartStorage.saveCart(this.currentItemId, this.pieces(), name);
+                this.currentCartId = cartId; // Guardar el nuevo ID para futuras actualizaciones
+                const storageSize = this.cartStorage.getStorageSize();
+
+                console.log(`Cart saved with ID: ${cartId}`);
+                console.log(`Storage size: ${storageSize.toFixed(2)} KB`);
+
+                alert(this.translateService.instant('table.cartSaved'));
+            }
         } catch (error) {
             console.error('Error saving cart:', error);
             alert('Error al guardar el carrito. Intenta de nuevo.');

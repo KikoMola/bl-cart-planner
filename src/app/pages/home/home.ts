@@ -160,6 +160,8 @@ export class Home {
         // Guardar en TableState para que Table component las cargue
         this.tableState.setItemId(cart.idItem);
         this.tableState.setPieces(pieces);
+        this.tableState.setCartId(cart.id);
+        this.tableState.setCartName(cart.name || null);
 
         // Navegar a la tabla
         this.router.navigate(['/table']);

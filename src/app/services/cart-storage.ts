@@ -44,6 +44,36 @@ export class CartStorage {
         return cartId;
     }
 
+    updateCart(cartId: string, pieces: BricklinkPiece[], name?: string): void {
+        const carts = this.getAllCarts();
+        const cartIndex = carts.findIndex(c => c.id === cartId);
+
+        if (cartIndex === -1) {
+            // Si no existe, crear uno nuevo
+            this.saveCart(0, pieces, name); // idItem será ignorado si se encuentra el cart
+            return;
+        }
+
+        // Optimizar datos: solo guardar campos necesarios
+        const optimizedPieces = pieces.map(piece => ({
+            d: piece.description,
+            i: piece.itemNo,
+            q: piece.quantity,
+            img: piece.imageUrl,
+            p: piece.price || undefined,
+        }));
+
+        // Actualizar el carrito existente
+        carts[cartIndex] = {
+            ...carts[cartIndex],
+            name: name || undefined,
+            pieces: optimizedPieces as any,
+            savedAt: Date.now(), // Actualizar fecha
+        };
+
+        this.saveCarts(carts);
+    }
+
     getAllCarts(): SavedCart[] {
         try {
             const data = localStorage.getItem(this.STORAGE_KEY);
