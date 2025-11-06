@@ -3,8 +3,12 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Bricklink } from '../../services/bricklink';
+import { TableState } from '../../services/table-state';
+import { CartStorage } from '../../services/cart-storage';
 import { Item, BricklinkItem } from '../../interfaces/bricklink';
+import { SavedCart } from '../../interfaces/cart';
 import { forkJoin } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 interface ItemWithDetails {
     searchItem: Item;
@@ -14,13 +18,15 @@ interface ItemWithDetails {
 
 @Component({
     selector: 'app-home',
-    imports: [TranslateModule, FormsModule],
+    imports: [TranslateModule, FormsModule, DatePipe],
     templateUrl: './home.html',
 })
 export class Home {
     private translateService = inject(TranslateService);
     private bricklinkService = inject(Bricklink);
     private router = inject(Router);
+    private tableState = inject(TableState);
+    private cartStorage = inject(CartStorage);
 
     private readonly LANG_STORAGE_KEY = 'blcpl-lang';
     private readonly SUPPORTED_LANGUAGES = ['es', 'en', 'de', 'fr'];
@@ -30,6 +36,11 @@ export class Home {
     isSearching = signal(false);
     items = signal<ItemWithDetails[]>([]);
     errorMessage = signal<string | null>(null);
+    savedCarts = signal<SavedCart[]>([]);
+
+    getCartPiecesCount(cart: SavedCart): number {
+        return (cart.pieces as any[]).length;
+    }
 
     constructor() {
         this.initializeLanguage();
@@ -37,6 +48,11 @@ export class Home {
 
     ngOnInit(): void {
         this.currentLanguage.set(this.translateService.currentLang || 'en');
+        this.loadSavedCarts();
+    }
+
+    private loadSavedCarts(): void {
+        this.savedCarts.set(this.cartStorage.getAllCarts());
     }
 
     private initializeLanguage(): void {
@@ -127,6 +143,35 @@ export class Home {
     }
 
     navigateToTable(idItem: number): void {
-        this.router.navigate(['/table', idItem]);
+        this.tableState.setItemId(idItem);
+        this.router.navigate(['/table']);
+    }
+
+    loadCart(cart: SavedCart): void {
+        // Descomprimir las piezas al formato completo
+        const pieces = (cart.pieces as any[]).map(p => ({
+            description: p.d,
+            itemNo: p.i,
+            quantity: p.q,
+            imageUrl: p.img,
+            price: p.p,
+        }));
+
+        // Guardar en TableState para que Table component las cargue
+        this.tableState.setItemId(cart.idItem);
+        this.tableState.setPieces(pieces);
+        this.tableState.setCartId(cart.id);
+        this.tableState.setCartName(cart.name || null);
+
+        // Navegar a la tabla
+        this.router.navigate(['/table']);
+    }
+
+    deleteCart(cart: SavedCart): void {
+        const confirmMessage = this.translateService.instant('savedCarts.confirmDelete');
+        if (confirm(confirmMessage)) {
+            this.cartStorage.deleteCart(cart.id);
+            this.loadSavedCarts();
+        }
     }
 }

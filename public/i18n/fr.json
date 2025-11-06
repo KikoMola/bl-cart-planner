@@ -15,5 +15,33 @@
         "en": "English",
         "de": "Deutsch",
         "fr": "Français"
+    },
+    "table": {
+        "title": "Pièces du Set",
+        "backToSearch": "Retour à la recherche",
+        "saveCart": "Enregistrer le panier localement",
+        "cartName": "Nom du panier (optionnel)",
+        "cartNamePlaceholder": "Ex: Millennium Falcon - Décembre 2025",
+        "cartSaved": "Panier enregistré avec succès",
+        "loading": "Chargement des pièces...",
+        "error": "Erreur",
+        "image": "Image",
+        "description": "Description",
+        "itemNo": "Article Nº",
+        "quantity": "Quantité",
+        "price": "Prix",
+        "totalPrice": "Prix Total",
+        "noImage": "Pas d'image",
+        "subtotal": "Sous-total Pièces",
+        "shipping": "Livraison",
+        "grandTotal": "TOTAL"
+    },
+    "savedCarts": {
+        "title": "Paniers Enregistrés",
+        "noSavedCarts": "Aucun panier enregistré",
+        "loadCart": "Ouvrir",
+        "deleteCart": "Supprimer",
+        "confirmDelete": "Supprimer ce panier?",
+        "savedAt": "Enregistré le"
     }
 }

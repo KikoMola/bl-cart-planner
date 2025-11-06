@@ -15,5 +15,33 @@
         "en": "English",
         "de": "Deutsch",
         "fr": "Français"
+    },
+    "table": {
+        "title": "Set-Teile",
+        "backToSearch": "Zurück zur Suche",
+        "saveCart": "Warenkorb lokal speichern",
+        "cartName": "Warenkorbname (optional)",
+        "cartNamePlaceholder": "Z.B: Millennium Falcon - Dezember 2025",
+        "cartSaved": "Warenkorb erfolgreich gespeichert",
+        "loading": "Teile werden geladen...",
+        "error": "Fehler",
+        "image": "Bild",
+        "description": "Beschreibung",
+        "itemNo": "Artikel-Nr",
+        "quantity": "Menge",
+        "price": "Preis",
+        "totalPrice": "Gesamtpreis",
+        "noImage": "Kein Bild",
+        "subtotal": "Teile Zwischensumme",
+        "shipping": "Versand",
+        "grandTotal": "GESAMT"
+    },
+    "savedCarts": {
+        "title": "Gespeicherte Warenkörbe",
+        "noSavedCarts": "Keine gespeicherten Warenkörbe",
+        "loadCart": "Öffnen",
+        "deleteCart": "Löschen",
+        "confirmDelete": "Diesen Warenkorb löschen?",
+        "savedAt": "Gespeichert am"
     }
 }
