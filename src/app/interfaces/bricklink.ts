@@ -78,4 +78,5 @@ export interface BricklinkPiece {
     itemNo: string;
     quantity: number;
     imageUrl: string;
+    price?: number;
 }

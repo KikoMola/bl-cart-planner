@@ -24,7 +24,9 @@
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                     </svg>
-                    <p class="text-white text-xl font-semibold">Cargando piezas...</p>
+                    <p class="text-white text-xl font-semibold">
+                        {{ 'table.loading' | translate }}
+                    </p>
                 </div>
             </div>
         }
@@ -34,8 +36,16 @@
             <div class="bg-white rounded-3xl shadow-2xl p-8">
                 <div class="text-center">
                     <div class="text-red-500 text-6xl mb-4">⚠️</div>
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Error</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">
+                        {{ 'table.error' | translate }}
+                    </h2>
                     <p class="text-gray-600">{{ errorMessage() }}</p>
+                    <button
+                        (click)="navigateToSearch()"
+                        class="mt-6 px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors"
+                    >
+                        ← {{ 'table.backToSearch' | translate }}
+                    </button>
                 </div>
             </div>
         }
@@ -43,9 +53,16 @@
         <!-- Table -->
         @if (!isLoading() && !errorMessage() && pieces().length > 0) {
             <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
-                <div class="p-8 bg-linear-to-r from-purple-600 to-pink-600">
-                    <h1 class="text-3xl font-extrabold text-white">Piezas del Set</h1>
-                    <p class="text-white/90 mt-2">Total de piezas: {{ pieces().length }}</p>
+                <div class="p-8 bg-linear-to-r from-purple-600 to-pink-600 flex justify-between items-center">
+                    <h1 class="text-3xl font-extrabold text-white">
+                        {{ 'table.title' | translate }}
+                    </h1>
+                    <button
+                        (click)="navigateToSearch()"
+                        class="px-6 py-3 bg-white text-purple-600 rounded-xl font-semibold hover:bg-gray-100 transition-colors"
+                    >
+                        ← {{ 'table.backToSearch' | translate }}
+                    </button>
                 </div>
 
                 <div class="overflow-x-auto">
@@ -55,22 +72,32 @@
                                 <th
                                     class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
                                 >
-                                    Image
+                                    {{ 'table.image' | translate }}
                                 </th>
                                 <th
                                     class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
                                 >
-                                    Description
+                                    {{ 'table.description' | translate }}
                                 </th>
                                 <th
                                     class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
                                 >
-                                    Item No
+                                    {{ 'table.itemNo' | translate }}
                                 </th>
                                 <th
                                     class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
                                 >
-                                    Quantity
+                                    {{ 'table.quantity' | translate }}
+                                </th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
+                                >
+                                    {{ 'table.price' | translate }}
+                                </th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
+                                >
+                                    {{ 'table.totalPrice' | translate }}
                                 </th>
                             </tr>
                         </thead>
@@ -89,7 +116,9 @@
                                             <div
                                                 class="w-16 h-16 bg-gray-100 rounded flex items-center justify-center"
                                             >
-                                                <span class="text-gray-400 text-xs">Sin imagen</span>
+                                                <span class="text-gray-400 text-xs">
+                                                    {{ 'table.noImage' | translate }}
+                                                </span>
                                             </div>
                                         }
                                     </td>
@@ -108,6 +137,21 @@
                                             class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-purple-100 text-purple-800"
                                         >
                                             {{ piece.quantity }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <input
+                                            type="number"
+                                            [(ngModel)]="piece.price"
+                                            min="0"
+                                            step="0.01"
+                                            placeholder="0.00"
+                                            class="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                                        />
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="text-sm font-semibold text-gray-900">
+                                            {{ calculateTotalPrice(piece) | number: '1.2-2' }}€
                                         </span>
                                     </td>
                                 </tr>

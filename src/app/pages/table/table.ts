@@ -1,16 +1,20 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Bricklink } from '../../services/bricklink';
 import { BricklinkPiece } from '../../interfaces/bricklink';
+import { TranslateModule } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
     selector: 'app-table',
-    imports: [],
+    imports: [TranslateModule, FormsModule, DecimalPipe],
     templateUrl: './table.html',
     styles: ``,
 })
 export class Table implements OnInit {
     private route = inject(ActivatedRoute);
+    private router = inject(Router);
     private bricklinkService = inject(Bricklink);
 
     pieces = signal<BricklinkPiece[]>([]);
@@ -25,6 +29,14 @@ export class Table implements OnInit {
         } else {
             this.errorMessage.set('ID de item no proporcionado');
         }
+    }
+
+    navigateToSearch(): void {
+        this.router.navigate(['/']);
+    }
+
+    calculateTotalPrice(piece: BricklinkPiece): number {
+        return piece.price ? piece.quantity * piece.price : 0;
     }
 
     private loadInventory(idItem: number): void {

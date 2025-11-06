@@ -15,5 +15,18 @@
         "en": "English",
         "de": "Deutsch",
         "fr": "Français"
+    },
+    "table": {
+        "title": "Piezas del Set",
+        "backToSearch": "Volver al buscador",
+        "loading": "Cargando piezas...",
+        "error": "Error",
+        "image": "Imagen",
+        "description": "Descripción",
+        "itemNo": "Artículo Nº",
+        "quantity": "Cantidad",
+        "price": "Precio",
+        "totalPrice": "Precio Total",
+        "noImage": "Sin imagen"
     }
 }

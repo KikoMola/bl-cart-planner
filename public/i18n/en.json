@@ -15,5 +15,18 @@
         "en": "English",
         "de": "Deutsch",
         "fr": "Français"
+    },
+    "table": {
+        "title": "Set Pieces",
+        "backToSearch": "Back to Search",
+        "loading": "Loading pieces...",
+        "error": "Error",
+        "image": "Image",
+        "description": "Description",
+        "itemNo": "Item No",
+        "quantity": "Quantity",
+        "price": "Price",
+        "totalPrice": "Total Price",
+        "noImage": "No image"
     }
 }
