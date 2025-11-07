@@ -115,7 +115,6 @@ export class Home {
                             this.isSearching.set(false);
                         },
                         error: error => {
-                            console.error('Error getting item details:', error);
                             this.errorMessage.set('Error al obtener detalles de los items.');
                             this.isSearching.set(false);
                         },
@@ -126,7 +125,6 @@ export class Home {
                 }
             },
             error: error => {
-                console.error('Search error:', error);
                 this.errorMessage.set('Error al buscar el set. Por favor, intenta de nuevo.');
                 this.isSearching.set(false);
             },

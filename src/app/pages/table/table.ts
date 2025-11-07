@@ -99,7 +99,6 @@ export class Table implements OnInit {
                 alert(this.translateService.instant('table.cartSaved'));
             }
         } catch (error) {
-            console.error('Error saving cart:', error);
             alert('Error al guardar el carrito. Intenta de nuevo.');
         }
     }
@@ -114,7 +113,6 @@ export class Table implements OnInit {
                 this.isLoading.set(false);
             },
             error: error => {
-                console.error('Error loading inventory:', error);
                 this.errorMessage.set(
                     'Error al cargar el inventario. Por favor, intenta de nuevo.'
                 );

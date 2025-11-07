@@ -52,7 +52,6 @@ module.exports = async function handler(req: VercelRequest, res: VercelResponse)
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         return res.status(200).send(html);
     } catch (error) {
-        console.error('Error fetching from Bricklink:', error);
         return res.status(500).json({ error: 'Internal server error' });
     }
 };

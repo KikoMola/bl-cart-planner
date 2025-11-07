@@ -79,7 +79,6 @@ export class CartStorage {
             const data = localStorage.getItem(this.STORAGE_KEY);
             return data ? JSON.parse(data) : [];
         } catch (error) {
-            console.error('Error loading carts from localStorage:', error);
             return [];
         }
     }
@@ -98,7 +97,6 @@ export class CartStorage {
         try {
             localStorage.setItem(this.STORAGE_KEY, JSON.stringify(carts));
         } catch (error) {
-            console.error('Error saving carts to localStorage:', error);
             // Si falla por límite de espacio, eliminar el carrito más antiguo y reintentar
             if (carts.length > 1) {
                 carts.pop();
