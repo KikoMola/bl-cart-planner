@@ -48,20 +48,25 @@
 
         <!-- Saved Carts Section -->
         @if (savedCarts().length > 0) {
-            <div class="mt-12 bg-white rounded-3xl shadow-2xl p-8 backdrop-blur-sm border border-gray-100 mb-8">
+            <div
+                class="mt-12 bg-white rounded-3xl shadow-2xl p-8 backdrop-blur-sm border border-gray-100 mb-8"
+            >
                 <h2 class="text-2xl font-bold text-gray-900 mb-8 flex items-center gap-3">
                     💾 {{ 'savedCarts.title' | translate }}
                 </h2>
                 <div class="space-y-4">
                     @for (cart of savedCarts(); track cart.id) {
-                        <div class="bg-gray-50 rounded-xl p-6 border border-gray-200 hover:border-purple-300 transition-all">
+                        <div
+                            class="bg-gray-50 rounded-xl p-6 border border-gray-200 hover:border-purple-300 transition-all"
+                        >
                             <div class="flex justify-between items-center">
                                 <div class="flex-1">
                                     <h3 class="font-bold text-gray-900 text-lg">
-                                        {{ cart.name || ('Item #' + cart.idItem) }}
+                                        {{ cart.name || 'Item #' + cart.idItem }}
                                     </h3>
                                     <p class="text-sm text-gray-500 mt-1">
-                                        {{ 'savedCarts.savedAt' | translate }}: {{ cart.savedAt | date: 'dd/MM/yyyy HH:mm' }}
+                                        {{ 'savedCarts.savedAt' | translate }}:
+                                        {{ cart.savedAt | date: 'dd/MM/yyyy HH:mm' }}
                                     </p>
                                 </div>
                                 <div class="flex gap-3 ml-4">
