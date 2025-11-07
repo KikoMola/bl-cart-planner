@@ -87,8 +87,6 @@ export class Home {
 
         this.bricklinkService.searchSet(setNumberValue).subscribe({
             next: response => {
-                console.log('Search results:', response);
-
                 if (response.returnCode === 0 && response.result.typeList.length > 0) {
                     const items = response.result.typeList[0].items;
 

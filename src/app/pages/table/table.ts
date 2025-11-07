@@ -89,18 +89,12 @@ export class Table implements OnInit {
                 this.cartStorage.updateCart(this.currentCartId, this.pieces(), name);
                 const storageSize = this.cartStorage.getStorageSize();
 
-                console.log(`Cart updated with ID: ${this.currentCartId}`);
-                console.log(`Storage size: ${storageSize.toFixed(2)} KB`);
-
                 alert(this.translateService.instant('table.cartSaved'));
             } else {
                 // Si no hay cartId, crear uno nuevo
                 const cartId = this.cartStorage.saveCart(this.currentItemId, this.pieces(), name);
                 this.currentCartId = cartId; // Guardar el nuevo ID para futuras actualizaciones
                 const storageSize = this.cartStorage.getStorageSize();
-
-                console.log(`Cart saved with ID: ${cartId}`);
-                console.log(`Storage size: ${storageSize.toFixed(2)} KB`);
 
                 alert(this.translateService.instant('table.cartSaved'));
             }
@@ -116,7 +110,6 @@ export class Table implements OnInit {
 
         this.bricklinkService.getItemInventory(idItem).subscribe({
             next: pieces => {
-                console.log('Pieces loaded:', pieces);
                 this.pieces.set(pieces);
                 this.isLoading.set(false);
             },
