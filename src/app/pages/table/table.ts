@@ -1,4 +1,11 @@
-import { Component, inject, signal, OnInit, computed } from '@angular/core';
+import {
+    Component,
+    inject,
+    signal,
+    OnInit,
+    computed,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Bricklink } from '../../services/bricklink';
 import { TableState } from '../../services/table-state';
@@ -12,6 +19,7 @@ import { DecimalPipe } from '@angular/common';
     selector: 'app-table',
     imports: [TranslateModule, FormsModule, DecimalPipe],
     templateUrl: './table.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: ``,
 })
 export class Table implements OnInit {

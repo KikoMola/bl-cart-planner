@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,6 +19,7 @@ interface ItemWithDetails {
 @Component({
     selector: 'app-home',
     imports: [TranslateModule, FormsModule, DatePipe],
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './home.html',
 })
 export class Home {
