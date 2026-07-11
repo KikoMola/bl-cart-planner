@@ -34,7 +34,29 @@
         "noImage": "Kein Bild",
         "subtotal": "Teile Zwischensumme",
         "shipping": "Versand",
-        "grandTotal": "GESAMT"
+        "grandTotal": "GESAMT",
+        "missingTitle": "Manuell zu suchende Teile",
+        "automationTitle": "Automatisch hinzugefügte Teile",
+        "automationStore": "Shop",
+        "automationNoResults": "Es konnten keine Teile automatisch hinzugefügt werden"
+    },
+    "stores": {
+        "title": "Bezugsquellen (Shops)",
+        "subtitle": "Füge die Shops in Prioritätsreihenfolge hinzu. Wir suchen verfügbare Teile und fügen sie nacheinander dem Warenkorb jedes Shops hinzu, bis das Set komplett ist.",
+        "piecesFound": "zu beschaffende Teile",
+        "loadingPieces": "Teile werden geladen...",
+        "loadError": "Fehler beim Laden der Teile",
+        "noItem": "Kein Artikel ausgewählt",
+        "runError": "Fehler bei der automatischen Suche",
+        "cookieLabel": "Bricklink-Sitzungscookie",
+        "cookiePlaceholder": "Füge hier den Wert des Cookie-Headers aus deinem Browser ein (DevTools > Network)",
+        "cookieHelp": "Wird nur in diesem Browser-Tab gespeichert (sessionStorage) und an unseren eigenen Proxy gesendet. Wird beim Schließen des Tabs gelöscht.",
+        "storePlaceholder": "Shop-Benutzername (z.B: GalitaBricks)",
+        "addStore": "Shop hinzufügen",
+        "progressTitle": "Fortschritt",
+        "run": "Automatisch suchen und in den Warenkorb legen",
+        "running": "Suche läuft...",
+        "skip": "Überspringen, manuell suchen"
     },
     "savedCarts": {
         "title": "Gespeicherte Warenkörbe",

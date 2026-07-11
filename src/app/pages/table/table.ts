@@ -11,6 +11,7 @@ import { Bricklink } from '../../services/bricklink';
 import { TableState } from '../../services/table-state';
 import { CartStorage } from '../../services/cart-storage';
 import { BricklinkPiece } from '../../interfaces/bricklink';
+import { StoreAutomationResult } from '../../interfaces/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
@@ -34,6 +35,7 @@ export class Table implements OnInit {
     errorMessage = signal<string | null>(null);
     cartName = signal('');
     shippingCost = signal(0);
+    automationResult = signal<StoreAutomationResult | null>(null);
     private currentItemId: number | null = null;
     private currentCartId: string | null = null;
 
@@ -44,9 +46,22 @@ export class Table implements OnInit {
         }, 0);
     });
 
+    // Computed para el total de lo añadido automáticamente a los carritos de las tiendas
+    automationTotal = computed(() => {
+        const result = this.automationResult();
+        if (!result) return 0;
+
+        return result.sourced.reduce((sum, item) => {
+            return (
+                sum +
+                item.addedFrom.reduce((itemSum, entry) => itemSum + entry.price * entry.quantity, 0)
+            );
+        }, 0);
+    });
+
     // Computed para suma final
     grandTotal = computed(() => {
-        return this.totalPiecesPrice() + (this.shippingCost() || 0);
+        return this.totalPiecesPrice() + this.automationTotal() + (this.shippingCost() || 0);
     });
 
     ngOnInit(): void {
@@ -54,6 +69,18 @@ export class Table implements OnInit {
         const loadedPieces = this.tableState.getPieces();
         const cartId = this.tableState.getCartId();
         const cartName = this.tableState.getCartName();
+        const automationResult = this.tableState.getAutomationResult();
+
+        // Si viene de la búsqueda automática en tiendas, mostrar el resumen y solo
+        // las piezas que faltan por conseguir manualmente
+        if (automationResult) {
+            this.automationResult.set(automationResult);
+            this.tableState.clearAutomationResult();
+            this.currentItemId = idItem;
+            this.currentCartId = null;
+            this.pieces.set(automationResult.missing.map(item => item.piece));
+            return;
+        }
 
         // Si hay piezas precargadas (desde carrito guardado), usarlas directamente
         if (loadedPieces) {

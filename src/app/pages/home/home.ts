@@ -139,9 +139,9 @@ export class Home {
         localStorage.setItem(this.LANG_STORAGE_KEY, lang);
     }
 
-    navigateToTable(idItem: number): void {
+    navigateToStores(idItem: number): void {
         this.tableState.setItemId(idItem);
-        this.router.navigate(['/table']);
+        this.router.navigate(['/stores']);
     }
 
     loadCart(cart: SavedCart): void {
