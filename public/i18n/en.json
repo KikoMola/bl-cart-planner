@@ -34,7 +34,29 @@
         "noImage": "No image",
         "subtotal": "Pieces Subtotal",
         "shipping": "Shipping",
-        "grandTotal": "TOTAL"
+        "grandTotal": "TOTAL",
+        "missingTitle": "Pieces to Find Manually",
+        "automationTitle": "Automatically Added Pieces",
+        "automationStore": "Store",
+        "automationNoResults": "No pieces could be added automatically"
+    },
+    "stores": {
+        "title": "Sourcing Stores",
+        "subtitle": "Add the stores in priority order. We'll search and add available pieces to each store's cart, in order, until the set is complete.",
+        "piecesFound": "pieces to source",
+        "loadingPieces": "Loading pieces...",
+        "loadError": "Error loading pieces",
+        "noItem": "No item selected",
+        "runError": "Error running the automatic search",
+        "cookieLabel": "Bricklink session cookie",
+        "cookiePlaceholder": "Paste here the Cookie header value from your browser (DevTools > Network)",
+        "cookieHelp": "Only stored in this browser tab (sessionStorage) and sent to our own proxy. It is cleared when you close the tab.",
+        "storePlaceholder": "Store username (e.g: GalitaBricks)",
+        "addStore": "Add store",
+        "progressTitle": "Progress",
+        "run": "Search and add to cart automatically",
+        "running": "Searching...",
+        "skip": "Skip, search manually"
     },
     "savedCarts": {
         "title": "Saved Carts",

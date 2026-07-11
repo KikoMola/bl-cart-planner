@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { BricklinkPiece } from '../interfaces/bricklink';
+import { StoreAutomationResult } from '../interfaces/store';
 
 @Injectable({
     providedIn: 'root',
@@ -9,6 +10,7 @@ export class TableState {
     private loadedPieces = signal<BricklinkPiece[] | null>(null);
     private currentCartId = signal<string | null>(null);
     private currentCartName = signal<string | null>(null);
+    private automationResult = signal<StoreAutomationResult | null>(null);
 
     setItemId(idItem: number): void {
         this.currentItemId.set(idItem);
@@ -53,5 +55,17 @@ export class TableState {
     clearCart(): void {
         this.currentCartId.set(null);
         this.currentCartName.set(null);
+    }
+
+    setAutomationResult(result: StoreAutomationResult): void {
+        this.automationResult.set(result);
+    }
+
+    getAutomationResult(): StoreAutomationResult | null {
+        return this.automationResult();
+    }
+
+    clearAutomationResult(): void {
+        this.automationResult.set(null);
     }
 }

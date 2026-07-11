@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,6 +19,7 @@ interface ItemWithDetails {
 @Component({
     selector: 'app-home',
     imports: [TranslateModule, FormsModule, DatePipe],
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './home.html',
 })
 export class Home {
@@ -138,9 +139,9 @@ export class Home {
         localStorage.setItem(this.LANG_STORAGE_KEY, lang);
     }
 
-    navigateToTable(idItem: number): void {
+    navigateToStores(idItem: number): void {
         this.tableState.setItemId(idItem);
-        this.router.navigate(['/table']);
+        this.router.navigate(['/stores']);
     }
 
     loadCart(cart: SavedCart): void {

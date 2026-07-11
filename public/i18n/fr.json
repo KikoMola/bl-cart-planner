@@ -34,7 +34,29 @@
         "noImage": "Pas d'image",
         "subtotal": "Sous-total Pièces",
         "shipping": "Livraison",
-        "grandTotal": "TOTAL"
+        "grandTotal": "TOTAL",
+        "missingTitle": "Pièces à chercher manuellement",
+        "automationTitle": "Pièces ajoutées automatiquement",
+        "automationStore": "Boutique",
+        "automationNoResults": "Aucune pièce n'a pu être ajoutée automatiquement"
+    },
+    "stores": {
+        "title": "Boutiques d'approvisionnement",
+        "subtitle": "Ajoutez les boutiques par ordre de priorité. Nous chercherons et ajouterons les pièces disponibles au panier de chaque boutique, dans cet ordre, jusqu'à compléter le set.",
+        "piecesFound": "pièces à trouver",
+        "loadingPieces": "Chargement des pièces...",
+        "loadError": "Erreur lors du chargement des pièces",
+        "noItem": "Aucun article sélectionné",
+        "runError": "Erreur lors de la recherche automatique",
+        "cookieLabel": "Cookie de session Bricklink",
+        "cookiePlaceholder": "Collez ici la valeur de l'en-tête Cookie de votre navigateur (DevTools > Network)",
+        "cookieHelp": "Uniquement stocké dans cet onglet du navigateur (sessionStorage) et envoyé à notre propre proxy. Effacé à la fermeture de l'onglet.",
+        "storePlaceholder": "Nom d'utilisateur de la boutique (ex: GalitaBricks)",
+        "addStore": "Ajouter une boutique",
+        "progressTitle": "Progression",
+        "run": "Rechercher et ajouter au panier automatiquement",
+        "running": "Recherche en cours...",
+        "skip": "Ignorer, chercher manuellement"
     },
     "savedCarts": {
         "title": "Paniers Enregistrés",
