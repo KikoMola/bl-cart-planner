@@ -13,7 +13,8 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve"
+    "module": "preserve",
+    "rootDir": "."
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
@@ -23,6 +24,7 @@
     "strictTemplates": true
   },
   "files": [],
+  "include": ["src/**/*.ts"],
   "references": [
     {
       "path": "./tsconfig.app.json"
