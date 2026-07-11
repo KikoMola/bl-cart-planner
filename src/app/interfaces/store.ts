@@ -46,3 +46,17 @@ export interface StoreAutomationResult {
     missing: PieceSourcingResult[];
     log: string[];
 }
+
+export interface AddToCartItemStatus {
+    invID: number;
+    code: string;
+    msg: string;
+    sid: number;
+}
+
+export interface AddToCartResponse {
+    errors: number;
+    itemReturnStatus: AddToCartItemStatus[];
+    returnCode: number;
+    returnMessage: string;
+}

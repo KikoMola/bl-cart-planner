@@ -67,7 +67,9 @@ async function handleResolveSid(res: VercelResponse, storeName: string, cookie: 
     }
 
     const html = await response.text();
-    const match = html.match(/[?&]sid=(\d+)/) || html.match(/"sid"\s*:\s*"?(\d+)"?/);
+    const match = html.match(
+        /StoreFront\.store\s*=\s*\{[\s\S]*?name:\s*'[^']*'[\s\S]*?username:\s*'[^']*'[\s\S]*?id:\s*(\d+)/
+    );
 
     if (!match) {
         return res.status(404).json({ error: 'sid not found for store' });

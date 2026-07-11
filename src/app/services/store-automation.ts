@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { BricklinkAuth } from './bricklink-auth';
 import { BricklinkPiece } from '../interfaces/bricklink';
-import { PieceSourcingResult, StoreAutomationResult, StoreSearchResponse } from '../interfaces/store';
+import { PieceSourcingResult, StoreAutomationResult, StoreSearchResponse, AddToCartResponse } from '../interfaces/store';
 
 interface CartAddEntry {
     invID: number;
@@ -26,6 +26,8 @@ export class StoreAutomation {
     private http = inject(HttpClient);
     private auth = inject(BricklinkAuth);
     private readonly PROXY_URL = '/api/store-proxy';
+    private readonly MAX_ITEMS_PER_REQUEST = 8;
+    private readonly DELAY_BETWEEN_REQUESTS_MS = 600;
 
     extractColorId(imageUrl: string): number | null {
         const match = imageUrl.match(/ItemImage\/[A-Za-z]+\/(\d+)\//);
@@ -120,24 +122,81 @@ export class StoreAutomation {
                 continue;
             }
 
-            try {
-                await this.addToCart(storeName, sid, cartEntries);
-            } catch (error) {
-                notify(`Error añadiendo piezas al carrito de "${storeName}". Se descartan sus resultados.`);
-                continue;
+            // Deduplicar por invID (puede repetirse si dos piezas distintas resolvieron
+            // al mismo lote), sumando cantidades y fusionando las adiciones provisionales.
+            const mergedEntries = new Map<number, CartAddEntry>();
+            const provisionalByInvID = new Map<number, ProvisionalAddition[]>();
+
+            for (let i = 0; i < cartEntries.length; i++) {
+                const entry = cartEntries[i];
+                const addition = provisional[i];
+
+                const existing = mergedEntries.get(entry.invID);
+                if (existing) {
+                    existing.invQty = (parseInt(existing.invQty, 10) + parseInt(entry.invQty, 10)).toString();
+                } else {
+                    mergedEntries.set(entry.invID, { ...entry });
+                }
+
+                const additions = provisionalByInvID.get(entry.invID) ?? [];
+                additions.push(addition);
+                provisionalByInvID.set(entry.invID, additions);
             }
 
-            for (const addition of provisional) {
-                addition.item.remainingQty -= addition.qty;
-                addition.item.addedFrom.push({
-                    invID: addition.invID,
-                    quantity: addition.qty,
-                    storeName,
-                    price: addition.price,
-                });
+            const dedupedEntries = Array.from(mergedEntries.values());
+            const successfulInvIDs = new Set<number>();
+            let sentCount = 0;
+
+            // Enviar en lotes pequeños con una breve pausa entre peticiones, para
+            // parecer más a un uso humano normal y evitar bloqueos silenciosos.
+            for (let i = 0; i < dedupedEntries.length; i += this.MAX_ITEMS_PER_REQUEST) {
+                const chunk = dedupedEntries.slice(i, i + this.MAX_ITEMS_PER_REQUEST);
+
+                let addResponse: AddToCartResponse;
+                try {
+                    addResponse = await this.addToCart(storeName, sid, chunk);
+                } catch (error) {
+                    notify(`Error añadiendo un lote de piezas al carrito de "${storeName}".`);
+                    continue;
+                }
+
+                sentCount += chunk.length;
+
+                for (const status of addResponse.itemReturnStatus ?? []) {
+                    if (status.code === '0') {
+                        successfulInvIDs.add(status.invID);
+                    }
+                }
+
+                if (i + this.MAX_ITEMS_PER_REQUEST < dedupedEntries.length) {
+                    await this.delay(this.DELAY_BETWEEN_REQUESTS_MS);
+                }
             }
 
-            notify(`Añadidas ${cartEntries.length} referencia(s) desde "${storeName}".`);
+            let committedCount = 0;
+            for (const invID of successfulInvIDs) {
+                const additions = provisionalByInvID.get(invID) ?? [];
+                for (const addition of additions) {
+                    addition.item.remainingQty -= addition.qty;
+                    addition.item.addedFrom.push({
+                        invID: addition.invID,
+                        quantity: addition.qty,
+                        storeName,
+                        price: addition.price,
+                    });
+                    committedCount++;
+                }
+            }
+
+            if (committedCount === 0) {
+                notify(`Bricklink rechazó todas las referencias enviadas a "${storeName}".`);
+            } else if (committedCount < sentCount) {
+                notify(
+                    `Añadidas ${committedCount} de ${sentCount} referencia(s) desde "${storeName}" (el resto fue rechazado por Bricklink).`
+                );
+            } else {
+                notify(`Añadidas ${committedCount} referencia(s) desde "${storeName}".`);
+            }
         }
 
         return {
@@ -145,6 +204,10 @@ export class StoreAutomation {
             missing: sourcing.filter(item => item.remainingQty > 0),
             log,
         };
+    }
+
+    private delay(ms: number): Promise<void> {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     private resolveSid(storeName: string): Promise<number> {
@@ -170,9 +233,13 @@ export class StoreAutomation {
         );
     }
 
-    private async addToCart(storeName: string, sid: number, itemArray: CartAddEntry[]): Promise<void> {
-        await firstValueFrom(
-            this.http.post(this.PROXY_URL, {
+    private async addToCart(
+        storeName: string,
+        sid: number,
+        itemArray: CartAddEntry[]
+    ): Promise<AddToCartResponse> {
+        return firstValueFrom(
+            this.http.post<AddToCartResponse>(this.PROXY_URL, {
                 action: 'addToCart',
                 storeName,
                 sid,
